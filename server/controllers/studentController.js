@@ -34,7 +34,20 @@ const getAllStudents = async (req, res) => {
   }
 };
 
+const studentAnalytics = async (req, res) => {
+  try {
+    const students = await Student.find({});
+    const attendance = students.map((student) => student.attendance);
+    const location = students.map((student) => student.address);
+    const gender = students.map((student) => student.gender);
+    res.status(200).json([{ attendance, location, gender }]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log("error", error.message);
+  }
+};
 module.exports = {
   addNewStudent,
   getAllStudents,
+  studentAnalytics,
 };
